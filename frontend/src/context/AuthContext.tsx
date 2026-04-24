@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem("ch_token");
+    localStorage.removeItem("creatorhub_token");
     setUser(null);
     setTokenState(null);
   }, []);
