@@ -107,16 +107,16 @@ export function Posts() {
           />
         </label>
       </div>
-      <form onSubmit={createPost} className={"space-y-2 rounded border border-neutral-600 p-3"+(theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}>
+      <form onSubmit={createPost} className={"space-y-2 rounded border border-neutral-600 p-3"+(theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-neutral-600")}>
         <div className="font-medium">New draft</div>
         <input
-          className={"w-full rounded border border-neutral-600 px-2 py-1"+(theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}
+          className={"w-full rounded border border-neutral-600 px-2 py-1"+(theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-neutral-600")}
           placeholder="Title"
           value={newTitle}
           onChange={e => setNewTitle(e.target.value)}
         />
         <textarea
-          className={"w-full rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}
+          className={"w-full rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-neutral-600")}
           placeholder="Body"
           rows={3}
           value={newBody}

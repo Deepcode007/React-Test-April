@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../lib/api";
+import { useTheme } from "@/context/ThemeContext";
 
 export function Settings() {
   const { user, refreshUser } = useAuth();
@@ -8,6 +9,7 @@ export function Settings() {
   const [bio, setBio] = useState("");
   const [themePreference, setThemePreference] = useState<"light" | "dark">("dark");
   const [message, setMessage] = useState<string | null>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     void (async () => {
@@ -43,10 +45,10 @@ export function Settings() {
     <div className="space-y-4">
       <h1 className="text-lg font-semibold">Settings</h1>
       <form onSubmit={handleSave} className="max-w-md space-y-3">
-        <label className="flex flex-col gap-1">
+        <label className={"flex flex-col gap-1"}>
           Display name
           <input
-            className="rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+            className={"rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-700 text-white placeholder-white")}
             value={name}
             onChange={e => setName(e.target.value)}
           />
@@ -54,7 +56,7 @@ export function Settings() {
         <label className="flex flex-col gap-1">
           Bio
           <textarea
-            className="rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+            className={"rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-700 text-white placeholder-white")}
             rows={4}
             value={bio}
             onChange={e => setBio(e.target.value)}
@@ -63,7 +65,7 @@ export function Settings() {
         <label className="flex flex-col gap-1">
           Theme preference (profile)
           <select
-            className="rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+            className={"rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-700 text-white placeholder-white")}
             value={themePreference}
             onChange={e => setThemePreference(e.target.value as "light" | "dark")}
           >
@@ -72,7 +74,7 @@ export function Settings() {
           </select>
         </label>
         {message ? <p className="text-sm text-neutral-400">{message}</p> : null}
-        <button type="submit" onClick={handleSave} className="rounded border border-neutral-600 px-3 py-1">
+        <button type="submit" onClick={handleSave} className={"rounded border border-neutral-600 px-3 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}>
           Save changes
         </button>
       </form>
