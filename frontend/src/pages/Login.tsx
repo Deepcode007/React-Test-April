@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "@/lib/api";
 
 export function Login() {
   const { login } = useAuth();
@@ -23,8 +24,18 @@ export function Login() {
       setBusy(false);
     }
   }
+  
+    const checkExisting = () => {
+        apiFetch("/auth/me").then((res) => {
+            if (res.ok)
+            {
+                navigate("/Dashboard");
+            }
+        })
+    }
+    useEffect(checkExisting)
 
-  return (
+    return (
     <div className="mx-auto max-w-md p-6">
       <h1 className="mb-4 text-xl font-semibold">CreatorHub — Sign in</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
