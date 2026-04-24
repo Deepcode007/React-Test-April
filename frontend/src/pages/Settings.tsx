@@ -72,7 +72,7 @@ export function Settings() {
           </select>
         </label>
         {message ? <p className="text-sm text-neutral-400">{message}</p> : null}
-        <button type="submit" className="rounded border border-neutral-600 px-3 py-1">
+        <button type="submit" onClick={handleSave} className="rounded border border-neutral-600 px-3 py-1">
           Save changes
         </button>
       </form>
