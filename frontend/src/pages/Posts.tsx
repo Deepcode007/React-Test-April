@@ -39,7 +39,7 @@ export function Posts() {
 
   useEffect(() => {
     void loadPosts();
-  }, []);
+  }, [posts]);
 
   const onDelete = async (id: string) => {
     const res = await apiFetch("/posts/" + id, { method: "DELETE" });
@@ -56,7 +56,7 @@ export function Posts() {
 
   async function createPost(e: React.FormEvent) {
     e.preventDefault();
-    await apiFetch("/posts", {
+    const res = await apiFetch("/posts", {
       method: "POST",
       body: JSON.stringify({
         title: newTitle,
@@ -64,7 +64,18 @@ export function Posts() {
         status: "draft",
       }),
     });
-    setNewTitle(newTitle);
+      
+    setNewTitle("");
+    setNewBody("");
+    if (!res.ok)
+    {
+        return
+    }
+    const post:Post = (await res.json()).post;
+    posts.push(post)
+    const newPosts: Post[] = posts;
+    setPosts(newPosts);
+      
   }
 
   return (
