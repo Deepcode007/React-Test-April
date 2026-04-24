@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../lib/api";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Summary {
   totalPosts: number;
@@ -15,6 +16,7 @@ export function Analytics() {
   const { user } = useAuth();
   const [summary, setSummary] = useState<Summary | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     if (!user) {
@@ -32,11 +34,11 @@ export function Analytics() {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className={"space-y-4" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}>
       <h1 className="text-lg font-semibold">Analytics</h1>
       {error ? <p className="text-sm text-red-400">{error}</p> : null}
       {summary ? (
-        <ul className="space-y-1 text-sm">
+        <ul className={"space-y-1 text-sm" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-700 text-neutral-300 placeholder-white")}>
           <li>Total posts: {summary.totalPosts}</li>
           <li>Published: {summary.publishedCount}</li>
           <li>Drafts: {summary.draftCount}</li>
