@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { PostCard, type Post } from "../components/PostCard";
 import { apiFetch } from "../lib/api";
+import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 
 function clientFilterPosts(posts: Post[], q: string): Post[] {
   let result: Post[] = [];
@@ -21,6 +22,7 @@ export function Posts() {
   const [statusFilter, setStatusFilter] = useState<"all" | "draft" | "published">("all");
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const { theme, toggleTheme } = useTheme();
 
   const loadPosts = useCallback(async () => {
     const params = new URLSearchParams();
@@ -83,10 +85,10 @@ export function Posts() {
       <h1 className="text-lg font-semibold">Posts</h1>
       {error ? <p className="text-sm text-red-400">{error}</p> : null}
       <div className="flex flex-wrap gap-2">
-        <label className="flex items-center gap-1">
+        <label className={"flex items-center gap-1" + (theme==="light"? " text-black" : " bg-neutral-900 text-white placeholder-white")}>
           Status
           <select
-            className="rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+            className={"rounded border border-neutral-600"+ (theme === "light" ? "bg-neutral-200 text-black" : "bg-neutral-900 text-white") +"px-2 py-1"}
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value as typeof statusFilter)}
           >
@@ -98,23 +100,23 @@ export function Posts() {
         <label className="flex items-center gap-1">
           Search
           <input
-            className="rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+            className={"rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Title…"
           />
         </label>
       </div>
-      <form onSubmit={createPost} className="space-y-2 rounded border border-neutral-600 p-3">
+      <form onSubmit={createPost} className={"space-y-2 rounded border border-neutral-600 p-3"+(theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}>
         <div className="font-medium">New draft</div>
         <input
-          className="w-full rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+          className={"w-full rounded border border-neutral-600 px-2 py-1"+(theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}
           placeholder="Title"
           value={newTitle}
           onChange={e => setNewTitle(e.target.value)}
         />
         <textarea
-          className="w-full rounded border border-neutral-600 bg-neutral-900 px-2 py-1"
+          className={"w-full rounded border border-neutral-600 px-2 py-1" + (theme==="light"? " bg-neutral-200 text-black" : " bg-neutral-900 text-white placeholder-white")}
           placeholder="Body"
           rows={3}
           value={newBody}
@@ -132,6 +134,7 @@ export function Posts() {
             onDelete={onDelete}
             highlight={search.length > 0}
             meta={{ version: 1 }}
+            theme={theme}
           />
         ))}
       </div>
